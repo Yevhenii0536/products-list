@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { addProduct, removeProduct } from '../../redux/actions/productActions';
@@ -84,6 +84,18 @@ const ProductList: React.FC = () => {
     setSelectedProduct(null);
   };
 
+  useEffect(() => {
+    if (showNotification) {
+      const timer = setTimeout(() => {
+        handleNotificationClose();
+      }, 3000);
+
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [showNotification]);
+
   return (
     <div className="product-list">
       <h1 className="product-list__title">Список товарів</h1>
@@ -107,30 +119,34 @@ const ProductList: React.FC = () => {
         </button>
       </div>
 
-      <table className="product-list__table">
-        <thead>
-          <tr>
-            <th>Назва товару</th>
-            <th>Кількість</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {sortProducts().map((product: Product) => (
-            <tr key={product.id}>
-              <td onClick={() => openProductDetails(product)}>
-                {product.name}
-              </td>{' '}
-              <td>{product.count}</td>
-              <td>
-                <button onClick={() => openRemoveModal(product.id)}>
-                  Видалити
-                </button>
-              </td>
+      {products.length > 0 ? (
+        <table className="product-list__table">
+          <thead>
+            <tr>
+              <th>Назва товару</th>
+              <th>Кількість</th>
+              <th></th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {sortProducts().map((product: Product) => (
+              <tr key={product.id}>
+                <td onClick={() => openProductDetails(product)}>
+                  {product.name}
+                </td>
+                <td>{product.count}</td>
+                <td>
+                  <button onClick={() => openRemoveModal(product.id)}>
+                    Видалити
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        'No products yet'
+      )}
 
       {showAddModal && (
         <div className="modal-wrapper">
@@ -142,6 +158,7 @@ const ProductList: React.FC = () => {
           </div>
         </div>
       )}
+
       {showRemoveModal && (
         <div className="modal-wrapper">
           <div className="modal-content">
@@ -152,6 +169,7 @@ const ProductList: React.FC = () => {
           </div>
         </div>
       )}
+      
       {showNotification && (
         <div className="notification">
           <p>Товар успішно видалено!</p>
