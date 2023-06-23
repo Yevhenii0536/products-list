@@ -4,7 +4,6 @@ import { RootState } from '../../redux/store';
 import { addProduct, removeProduct } from '../../redux/actions/productActions';
 import AddProductModal from '../AddProductModal/AddProductModal';
 import RemoveConfirmationModal from '../RemoveConfirmationModal/RemoveConfirmationModal';
-import ProductCard from '../ProductCard/ProductCard';
 import { Product } from '../../utils/types';
 import './ProductList.scss';
 
@@ -16,8 +15,11 @@ const ProductList: React.FC = () => {
   const [selectedProductId, setSelectedProductId] = useState('');
   const [sortOption, setSortOption] = useState('name');
   const [showNotification, setShowNotification] = useState(false);
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
 
-  const handleAddProduct = (product: string) => {
+  const sortDirectionSymbol = sortDirection === 'asc' ? '\u2193' : '\u2191';
+
+  const handleAddProduct = (product: { name: string; count: number }) => {
     dispatch(addProduct(product));
     setShowAddModal(false);
   };
@@ -36,12 +38,22 @@ const ProductList: React.FC = () => {
   const sortProducts = () => {
     const sortedProducts = [...products].sort((a: Product, b: Product) => {
       if (sortOption === 'name') {
-        return a.name.localeCompare(b.name);
-      } 
-    
+        return a.name.localeCompare(b.name, 'en', { sensitivity: 'base' });
+      } else if (sortOption === 'count') {
+        return a.count - b.count;
+      }
       return 0;
     });
-    return sortedProducts;
+
+    if (sortOption === 'name') {
+      return sortDirection === 'asc'
+        ? sortedProducts
+        : sortedProducts.reverse();
+    } else {
+      return sortDirection === 'asc'
+        ? sortedProducts
+        : sortedProducts.reverse();
+    }
   };
 
   const handleSortOptionChange = (
@@ -56,6 +68,10 @@ const ProductList: React.FC = () => {
 
   const handleNotificationClose = () => {
     setShowNotification(false);
+  };
+
+  const handleSortDirectionChange = () => {
+    setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
   };
 
   return (
@@ -74,15 +90,35 @@ const ProductList: React.FC = () => {
           <option value="name">Сортувати за назвою</option>
           <option value="count">Сортувати за кількістю</option>
         </select>
+        <button
+          className="product-list__sort-direction-button"
+          onClick={handleSortDirectionChange}>
+          {sortDirectionSymbol}
+        </button>
       </div>
 
-      {sortProducts().map((product: Product) => (
-        <ProductCard
-          key={product.id}
-          product={product}
-          onRemove={() => openRemoveModal(product.id)}
-        />
-      ))}
+      <table className="product-list__table">
+        <thead>
+          <tr>
+            <th>Назва товару</th>
+            <th>Кількість</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {sortProducts().map((product: Product) => (
+            <tr key={product.id}>
+              <td>{product.name}</td>
+              <td>{product.count}</td>
+              <td>
+                <button onClick={() => openRemoveModal(product.id)}>
+                  Видалити
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
 
       {showAddModal && (
         <div className="modal-wrapper">

@@ -1,30 +1,84 @@
 .product-list {
-  padding: 20px;
-
-  &__title {
+  .product-list__title {
     font-size: 24px;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
   }
 
-  &__controls {
+  .product-list__controls {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
+    align-items: center;
+    margin-bottom: 16px;
+
+    .product-list__add-button {
+      padding: 8px 16px;
+      background-color: #4caf50;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      cursor: pointer;
+      margin-right: 16px;
+
+      &:hover {
+        background-color: #45a049;
+      }
+    }
+
+    .product-list__sort-select {
+      padding: 8px;
+      font-size: 14px;
+    }
+
+    .product-list__sort-direction-button {
+      padding: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      background-color: transparent;
+      border: none;
+    }
   }
 
-  &__add-button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
+  .product-list__table {
+    width: 100%;
+    border-collapse: collapse;
 
-  &__sort-select {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    th,
+    td {
+      padding: 8px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+    }
+
+    th:last-child,
+    td:last-child {
+      text-align: center;
+    }
+
+    th {
+      font-weight: bold;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover {
+      background-color: #f5f5f5;
+    }
+
+    button {
+      padding: 4px 8px;
+      background-color: #f44336;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #d32f2f;
+      }
+    }
   }
 
   .modal-wrapper {
@@ -37,28 +91,41 @@
     justify-content: center;
     align-items: center;
     background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
   }
 
   .modal-content {
     background-color: #fff;
-    padding: 20px;
+    padding: 16px;
     border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   }
 
   .notification {
-    background-color: #f8d7da;
-    color: #721c24;
-    padding: 10px;
-    margin-top: 20px;
-    border: 1px solid #f5c6cb;
+    background-color: #4caf50;
+    color: #fff;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     border-radius: 4px;
+    margin-bottom: 16px;
 
-    &__close-button {
-      margin-left: 10px;
+    p {
+      margin: 0;
+      font-size: 14px;
+    }
+
+    .notification__close-button {
       background-color: transparent;
-      color: #721c24;
+      color: #fff;
       border: none;
+      font-size: 14px;
       cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
 }

@@ -1,6 +1,6 @@
 import { ADD_PRODUCT, REMOVE_PRODUCT } from '../../utils/constants';
 
-export const addProduct = (product: string) => ({
+export const addProduct = (product: { name: string; count: number }) => ({
   type: ADD_PRODUCT,
   payload: product,
 });

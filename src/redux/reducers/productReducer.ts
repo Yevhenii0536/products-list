@@ -6,9 +6,11 @@ const productReducer = (
 ): ProductState => {
   switch (action.type) {
     case 'ADD_PRODUCT':
+      const { name, count } = action.payload as { name: string; count: number };
       const newProduct: Product = {
         id: Math.random().toString(),
-        name: action.payload as string,
+        name,
+        count,
       };
       return { ...state, products: [...state.products, newProduct] };
 

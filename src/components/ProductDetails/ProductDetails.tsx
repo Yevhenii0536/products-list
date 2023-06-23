@@ -9,7 +9,6 @@ const ProductDetails: React.FC = () => {
     <div className="product-details">
       <h1 className="product-details__title">Product Details</h1>
       <p className="product-details__id">Product ID: {id}</p>
-      {/* Add product details and comment functionality */}
     </div>
   );
 };
