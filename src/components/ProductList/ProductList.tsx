@@ -4,6 +4,7 @@ import { RootState } from '../../redux/store';
 import { addProduct, removeProduct } from '../../redux/actions/productActions';
 import AddProductModal from '../AddProductModal/AddProductModal';
 import RemoveConfirmationModal from '../RemoveConfirmationModal/RemoveConfirmationModal';
+import ProductDetails from '../ProductDetails/ProductDetails'; // Додали імпорт компонента ProductDetails
 import { Product } from '../../utils/types';
 import './ProductList.scss';
 
@@ -16,6 +17,7 @@ const ProductList: React.FC = () => {
   const [sortOption, setSortOption] = useState('name');
   const [showNotification, setShowNotification] = useState(false);
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null); // Додали стан для вибраного продукту
 
   const sortDirectionSymbol = sortDirection === 'asc' ? '\u2193' : '\u2191';
 
@@ -74,6 +76,14 @@ const ProductList: React.FC = () => {
     setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
   };
 
+  const openProductDetails = (product: Product) => {
+    setSelectedProduct(product);
+  };
+
+  const closeProductDetails = () => {
+    setSelectedProduct(null);
+  };
+
   return (
     <div className="product-list">
       <h1 className="product-list__title">Список товарів</h1>
@@ -108,7 +118,9 @@ const ProductList: React.FC = () => {
         <tbody>
           {sortProducts().map((product: Product) => (
             <tr key={product.id}>
-              <td>{product.name}</td>
+              <td onClick={() => openProductDetails(product)}>
+                {product.name}
+              </td>{' '}
               <td>{product.count}</td>
               <td>
                 <button onClick={() => openRemoveModal(product.id)}>
@@ -148,6 +160,17 @@ const ProductList: React.FC = () => {
             onClick={handleNotificationClose}>
             Закрити
           </button>
+        </div>
+      )}
+
+      {selectedProduct && (
+        <div className="modal-wrapper">
+          <div className="modal-content">
+            <ProductDetails
+              product={selectedProduct}
+              onClose={closeProductDetails}
+            />
+          </div>
         </div>
       )}
     </div>

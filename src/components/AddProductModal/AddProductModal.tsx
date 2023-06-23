@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { FC, useState } from 'react';
 import './AddProductModal.scss';
 
 type Props = {
@@ -6,12 +6,12 @@ type Props = {
   onClose: () => void;
 };
 
-const AddProductModal: React.FC<Props> = ({ onAdd, onClose }) => {
+const AddProductModal: FC<Props> = ({ onAdd, onClose }) => {
   const [productName, setProductName] = useState('');
-  const [productCount, setProductCount] = useState(0);
+  const [productCount, setProductCount] = useState(1);
 
   const handleAddClick = () => {
-    if (productName.trim() !== '') {
+    if (productName.trim() !== '' && productCount > 0) {
       const product = { name: productName, count: productCount };
       onAdd(product);
       setProductName('');
@@ -33,15 +33,27 @@ const AddProductModal: React.FC<Props> = ({ onAdd, onClose }) => {
     <div className="modal-wrapper">
       <div className="modal-content">
         <h2>Add Product</h2>
-        <input type="text" value={productName} onChange={handleNameChange} />
+
+        <input
+          type="text"
+          value={productName}
+          onChange={handleNameChange}
+        />
+
         <input
           type="number"
           value={productCount}
           onChange={handleCountChange}
         />
+
         <div>
-          <button onClick={handleAddClick}>Add</button>
-          <button onClick={onClose}>Cancel</button>
+          <button onClick={handleAddClick}>
+            Add
+          </button>
+
+          <button onClick={onClose}>
+            Cancel
+          </button>
         </div>
       </div>
     </div>

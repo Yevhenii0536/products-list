@@ -11,7 +11,7 @@ const RemoveConfirmationModal: React.FC<Props> = ({ onCancel, onConfirm }) => {
     <div className="remove-confirmation-modal">
       <h2 className="remove-confirmation-modal__title">Remove Product?</h2>
       <p className="remove-confirmation-modal__message">
-        Are you sure you want to remove this product?
+        Дійсно хочете видалити цей товар?
       </p>
       <button className="remove-confirmation-modal__button" onClick={onCancel}>
         Cancel
