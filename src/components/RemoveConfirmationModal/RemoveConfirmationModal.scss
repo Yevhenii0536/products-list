@@ -1,0 +1,22 @@
+.remove-confirmation-modal {
+  .remove-confirmation-modal__title {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  .remove-confirmation-modal__message {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+
+  .remove-confirmation-modal__button {
+    background-color: #e74c3c;
+    color: #fff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 10px;
+  }
+}
